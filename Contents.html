@@ -18,13 +18,11 @@
     </div>
 
     <script>
-        // Get URL Parameters
         const params = new URLSearchParams(window.location.search);
         const title = params.get("title");
         const image = params.get("image");
         const description = params.get("description");
 
-        // Check if parameters exist and update the content
         if (title) {
             document.getElementById("content-title").textContent = title;
         }
