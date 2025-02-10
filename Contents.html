@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Details</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html">⬅ Back to Home</a>
+    </nav>
+
+    <div class="content-container">
+        <img id="content-image" src="" alt="Content Image" style="max-width: 100%; height: auto;">
+        <h1 id="content-title">No Title</h1>
+        <p id="content-description">No Description Available</p>
+    </div>
+
+    <script>
+        // Get URL Parameters
+        const params = new URLSearchParams(window.location.search);
+        const title = params.get("title");
+        const image = params.get("image");
+        const description = params.get("description");
+
+        // Check if parameters exist and update the content
+        if (title) {
+            document.getElementById("content-title").textContent = title;
+        }
+        if (image) {
+            document.getElementById("content-image").src = image;
+        } else {
+            document.getElementById("content-image").src = "placeholder.jpg"; // default image
+        }
+        if (description) {
+            document.getElementById("content-description").textContent = description;
+        }
+    </script>
+</body>
+</html>
