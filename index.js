@@ -1,4 +1,4 @@
-// Array of image URLs
+
 const images = [
     "https://thumbs.dreamstime.com/b/many-used-modern-electronic-gadgets-use-white-floor-reuse-recycle-concept-top-view-164651362.jpg",
     "https://images.unsplash.com/photo-1517336714731-489689fd1ca8", 
