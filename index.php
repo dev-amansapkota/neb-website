@@ -98,13 +98,17 @@ $result = $conn->query($sql);
         <hr>
 
         <h3>All Notes</h3>
-        <?php while ($note = $result->fetch_assoc()) : ?>
-            <div class="note">
-                <h3><?php echo htmlspecialchars($note['title']); ?></h3>
-                <p><?php echo htmlspecialchars($note['content']); ?></p>
-                <p><small>Created at: <?php echo $note['created_at']; ?></small></p>
-            </div>
-        <?php endwhile; ?>
+        <?php if ($result->num_rows > 0): ?>
+            <?php while ($note = $result->fetch_assoc()) : ?>
+                <div class="note">
+                    <h3><?php echo htmlspecialchars($note['title']); ?></h3>
+                    <p><?php echo htmlspecialchars($note['content']); ?></p>
+                    <p><small>Created at: <?php echo $note['created_at']; ?></small></p>
+                </div>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <p>No notes available.</p>
+        <?php endif; ?>
     </div>
 
 </body>
