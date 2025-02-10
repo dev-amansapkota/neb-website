@@ -80,7 +80,7 @@ nav img {
 }
 
 .w3-card-4:hover {
-    transform: translateY(-5px); /* Lift card effect */
+    transform: translateY(-5px); 
 }
 
 .w3-card-4:hover img {
@@ -203,5 +203,5 @@ footer {
 }
 
 .products-container .w3-card-4:hover {
-    transform: translateY(-5px); /* Lift card effect */
+    transform: translateY(-5px); 
 }
