@@ -68,19 +68,22 @@
     </div>
 
     <script>
-        async function fetchNotes() {
-            const response = await fetch("crud.php");
-            const notes = await response.json();
-            const container = document.getElementById("notes-container");
-            container.innerHTML = notes.length ? notes.map(note =>
-                `<div class="note">
-                    <h3>${note.title}</h3>
-                    <p>${note.content}</p>
-                    <p><small>Created at: ${note.created_at}</small></p>
-                </div>`
-            ).join("") : "<p>No notes available.</p>";
-        }
-        fetchNotes();
+       async function fetchNotes() {
+    const response = await fetch("crud.php", {
+        method: "GET",
+    });
+    const notes = await response.json();
+    const container = document.getElementById("notes-container");
+    container.innerHTML = notes.length ? notes.map(note =>
+        `<div class="note">
+            <h3>${note.title}</h3>
+            <p>${note.content}</p>
+            <p><small>Created at: ${note.created_at}</small></p>
+        </div>`
+    ).join("") : "<p>No notes available.</p>";
+}
+fetchNotes();
+
     </script>
 
 </body>
