@@ -1,90 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Lobster&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            box-shadow: 0px 0px 10px gray;
-            border-radius: 8px;
-        }
-        .note {
-            background: #f9f9f9;
-            padding: 10px;
-            margin: 10px 0;
-            border-left: 5px solid #28a745;
-        }
-        .note h3 {
-            margin: 0;
-        }
-        .note p {
-            font-size: 16px;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            background-color: #28a745;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .error { color: red; }
-        .success { color: green; }
-    </style>
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+    <nav>
+        <img src="https://prime.edu.np/wp-content/uploads/2023/08/prime-logo.svg" alt="Prime Education Logo" height="60" width="100">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="/">Home</a></li>
+            <li class="nav-item"><a href="/about">About</a></li>
+            <li class="nav-item"><a href="/contact">Contact</a></li>
+            <li class="nav-item"><a href="/login">Login</a></li>
+        </ul>
+        <div class="search-box">
+            <input type="text" placeholder="Search..." id="search-input">
+            <button id="search-button">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+    </nav>
 
-    <div class="container">
-        <h2>Notes</h2>
+    <div class="main">
+        <div class="slider">
+            <div class="slides">
+                <div class="slide"><img src="https://th.bing.com/th/id/OIP.aGR_trUbPWDjwVrIbYljRwHaEu?w=1332&h=850&rs=1&pid=ImgDetMain" alt="Image 1"></div>
+                <div class="slide"><img src="https://wallpaperaccess.com/full/746397.jpg" alt="Image 2"></div>
+                <div class="slide"><img src="https://i.pinimg.com/originals/58/86/90/588690d650c5922439b326b044b510ce.jpg" alt="Image 3"></div>
+                <div class="slide"><img src="https://th.bing.com/th/id/OIP.YVRNeznsyGgfLmMUqXVNNQHaDt?w=1128&h=564&rs=1&pid=ImgDetMain" alt="Image 4"></div>
+            </div>
+            <button class="prev" onclick="prevSlide()">❮</button>
+            <button class="next" onclick="nextSlide()">❯</button>
+        </div>
 
-        <h3>Add New Note</h3>
-        <form action="crud.php" method="POST">
-            <input type="text" name="title" placeholder="Title" required>
-            <textarea name="content" placeholder="Content" rows="5" required></textarea>
-            <button type="submit">Add Note</button>
-        </form>
+        <div class="w3-card-4">
+            <a href="/Contents.html?title=Featured%20Products&description=Our%20New%20Products%20has%20been%20launched%20..&image=https://thumbs.dreamstime.com/b/many-used-modern-electronic-gadgets-use-white-floor-reuse-recycle-concept-top-view-164651362.jpg" target="_blank">
+                <img src="https://thumbs.dreamstime.com/b/many-used-modern-electronic-gadgets-use-white-floor-reuse-recycle-concept-top-view-164651362.jpg" alt="Gadgets">
+            </a>
+            <div class="w3-container w3-center">
+                <br>
+                <strong>Featured Products</strong>
+                <p>Our new products are ready for you!</p>
+            </div>
+        </div>
 
-        <hr>
+        <div class="title">
+            <h1>Our products</h1>
+        </div>
 
-        <h3>All Notes</h3>
-        <div id="notes-container"></div>
+        <!-- Product Cards Section -->
+        <div class="products-container">
+            <div class="w3-card-4">
+                <a href="/Contents.html?title=The%20Italian%20%2F%20Austrian%20Alps&description=Explore%20the%20stunning%20Italian%20and%20Austrian%20Alps&image=https://thumbs.dreamstime.com/b/many-used-modern-electronic-gadgets-use-white-floor-reuse-recycle-concept-top-view-164651362.jpg" target="_blank">
+                    <img src="https://thumbs.dreamstime.com/b/many-used-modern-electronic-gadgets-use-white-floor-reuse-recycle-concept-top-view-164651362.jpg" alt="Gadgets">
+                </a>
+                <div class="w3-container w3-center">
+                    <p>Exploring the breathtaking landscapes of the Italian and Austrian Alps.</p>
+                </div>
+            </div>
+
+            <div class="w3-card-4">
+                <a href="/Contents.html?title=Discover%20the%20Alps&description=Adventure%20awaits%20in%20the%20majestic%20Alps&image=https://thumbs.dreamstime.com/b/many-used-modern-electronic-gadgets-use-white-floor-reuse-recycle-concept-top-view-164651362.jpg" target="_blank">
+                    <img src="https://thumbs.dreamstime.com/b/many-used-modern-electronic-gadgets-use-white-floor-reuse-recycle-concept-top-view-164651362.jpg" alt="Gadgets">
+                </a>
+                <div class="w3-container w3-center">
+                    <p>Adventure awaits in the majestic Alps.</p>
+                </div>
+            </div>
+
+            <div class="w3-card-4">
+                <a href="/Contents.html?title=Alpine%20Adventure&description=Embark%20on%20an%20unforgettable%20journey%20through%20the%20Alps&image=https://th.bing.com/th/id/OIP.ggeOszk9WMMqvfNCpdc8vAHaEJ?w=626&h=351&rs=1&pid=ImgDetMain" target="_blank">
+                    <img src="https://th.bing.com/th/id/OIP.ggeOszk9WMMqvfNCpdc8vAHaEJ?w=626&h=351&rs=1&pid=ImgDetMain" alt="Gadgets">
+                </a>
+                <div class="w3-container w3-center">
+                    <p>Alpine Adventure: A journey of a lifetime.</p>
+                </div>
+            </div>
+
+            <div class="w3-card-4">
+                <a href="/Contents.html?title=Must-Have%20Gadgets&description=Check%20out%20the%20best%20gadgets%20for%20your%20projects&image=https://oscarmini.com/wp-content/uploads/2021/11/A2797-10-must-have-gadgets-for-every-architect.jpg" target="_blank">
+                    <img src="https://oscarmini.com/wp-content/uploads/2021/11/A2797-10-must-have-gadgets-for-every-architect.jpg" alt="Gadgets">
+                </a>
+                <div class="w3-container w3-center">
+                    <p>Must-have gadgets for architects and creators.</p>
+                </div>
+            </div>
+
+            <div class="w3-card-4">
+                <a href="/Contents.html?title=Explore%20Gadgets&description=Discover%20the%20latest%20tech%20gadgets%20to%20elevate%20your%20experience&image=https://thumbs.dreamstime.com/b/many-used-modern-electronic-gadgets-use-white-floor-reuse-recycle-concept-top-view-164651362.jpg" target="_blank">
+                    <img src="https://thumbs.dreamstime.com/b/many-used-modern-electronic-gadgets-use-white-floor-reuse-recycle-concept-top-view-164651362.jpg" alt="Gadgets">
+                </a>
+                <div class="w3-container w3-center">
+                    <p>Explore the newest gadgets that everyone is talking about.</p>
+                </div>
+            </div>
+
+            <div class="w3-card-4">
+                <a href="/Contents.html?title=Gadget%20Innovation&description=Explore%20innovative%20gadgets%20that%20are%20transforming%20the%20tech%20industry&image=https://thumbs.dreamstime.com/b/many-used-modern-electronic-gadgets-use-white-floor-reuse-recycle-concept-top-view-164651362.jpg" target="_blank">
+                    <img src="https://thumbs.dreamstime.com/b/many-used-modern-electronic-gadgets-use-white-floor-reuse-recycle-concept-top-view-164651362.jpg" alt="Gadgets">
+                </a>
+                <div class="w3-container w3-center">
+                    <p>Innovation in the tech world: Must-see gadgets.</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script>
-       async function fetchNotes() {
-    const response = await fetch("crud.php", {
-        method: "GET",
-    });
-    const notes = await response.json();
-    const container = document.getElementById("notes-container");
-    container.innerHTML = notes.length ? notes.map(note =>
-        `<div class="note">
-            <h3>${note.title}</h3>
-            <p>${note.content}</p>
-            <p><small>Created at: ${note.created_at}</small></p>
-        </div>`
-    ).join("") : "<p>No notes available.</p>";
-}
-fetchNotes();
+    <footer>
+        Aman Sapkota || All Rights Reserved 2025
+    </footer>
 
-    </script>
-
+    <script src="index.js"></script>
 </body>
+
 </html>
