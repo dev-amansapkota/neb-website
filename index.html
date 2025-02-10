@@ -1,39 +1,65 @@
 <?php
-// Handle form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = htmlspecialchars($_POST["name"]);
-    $email = htmlspecialchars($_POST["email"]);
-    $message = htmlspecialchars($_POST["message"]);
+// Database connection
+$host = 'localhost';
+$dbname = 'notes_app';
+$username = 'root';
+$password = '';
+$conn = new mysqli($host, $username, $password, $dbname);
 
-    // Simple email validation
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = "Invalid email format!";
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Handle adding a note
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['title'], $_POST['content'])) {
+    $title = htmlspecialchars($_POST['title']);
+    $content = htmlspecialchars($_POST['content']);
+
+    // Insert the new note into the database
+    $sql = "INSERT INTO notes (title, content) VALUES ('$title', '$content')";
+    if ($conn->query($sql) === TRUE) {
+        $success = "Note added successfully!";
     } else {
-        // Normally, you'd save to a database or send an email
-        $success = "Message sent successfully!";
+        $error = "Error: " . $sql . "<br>" . $conn->error;
     }
 }
+
+// Fetch all notes
+$sql = "SELECT * FROM notes ORDER BY created_at DESC";
+$result = $conn->query($sql);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple PHP Website</title>
+    <title>Notes</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
-            text-align: center;
             padding: 20px;
         }
         .container {
-            max-width: 400px;
+            max-width: 600px;
             margin: auto;
             background: white;
             padding: 20px;
             box-shadow: 0px 0px 10px gray;
             border-radius: 8px;
+        }
+        .note {
+            background: #f9f9f9;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 5px solid #28a745;
+        }
+        .note h3 {
+            margin: 0;
+        }
+        .note p {
+            font-size: 16px;
         }
         input, textarea {
             width: 100%;
@@ -57,43 +83,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
     <div class="container">
-        <h2>Contact Us</h2>
+        <h2>Notes</h2>
 
         <?php if (!empty($error)) echo "<p class='error'>$error</p>"; ?>
         <?php if (!empty($success)) echo "<p class='success'>$success</p>"; ?>
 
-        <form method="POST" onsubmit="return validateForm()">
-            <input type="text" name="name" id="name" placeholder="Your Name" required>
-            <input type="email" name="email" id="email" placeholder="Your Email" required>
-            <textarea name="message" id="message" placeholder="Your Message" rows="4" required></textarea>
-            <button type="submit">Send Message</button>
+        <h3>Add New Note</h3>
+        <form method="POST">
+            <input type="text" name="title" placeholder="Title" required>
+            <textarea name="content" placeholder="Content" rows="5" required></textarea>
+            <button type="submit">Add Note</button>
         </form>
+
+        <hr>
+
+        <h3>All Notes</h3>
+        <?php while ($note = $result->fetch_assoc()) : ?>
+            <div class="note">
+                <h3><?php echo htmlspecialchars($note['title']); ?></h3>
+                <p><?php echo htmlspecialchars($note['content']); ?></p>
+                <p><small>Created at: <?php echo $note['created_at']; ?></small></p>
+            </div>
+        <?php endwhile; ?>
     </div>
-
-    <script>
-        function validateForm() {
-            var name = document.getElementById("name").value;
-            var email = document.getElementById("email").value;
-            var message = document.getElementById("message").value;
-
-            if (name.length < 3) {
-                alert("Name must be at least 3 characters long.");
-                return false;
-            }
-
-            if (!email.includes("@")) {
-                alert("Please enter a valid email.");
-                return false;
-            }
-
-            if (message.length < 5) {
-                alert("Message must be at least 5 characters long.");
-                return false;
-            }
-
-            return true;
-        }
-    </script>
 
 </body>
 </html>
+
+<?php $conn->close(); ?>
