@@ -1,34 +1,3 @@
-<?php
-// Database connection
-$host = 'sql103.infinityfree.com';
-$dbname = 'if0_37632606_notes';
-$username = 'if0_37632606';
-$password = 'cKhJ3nqRai1pGJ';
-$conn = new mysqli($host, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Handle adding a note
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['title'], $_POST['content'])) {
-    $title = htmlspecialchars($_POST['title']);
-    $content = htmlspecialchars($_POST['content']);
-
-    // Insert the new note into the database
-    $sql = "INSERT INTO notes (title, content) VALUES ('$title', '$content')";
-    if ($conn->query($sql) === TRUE) {
-        $success = "Note added successfully!";
-    } else {
-        $error = "Error: " . $sql . "<br>" . $conn->error;
-    }
-}
-
-// Fetch all notes
-$sql = "SELECT * FROM notes ORDER BY created_at DESC";
-$result = $conn->query($sql);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,11 +54,8 @@ $result = $conn->query($sql);
     <div class="container">
         <h2>Notes</h2>
 
-        <?php if (!empty($error)) echo "<p class='error'>$error</p>"; ?>
-        <?php if (!empty($success)) echo "<p class='success'>$success</p>"; ?>
-
         <h3>Add New Note</h3>
-        <form method="POST">
+        <form action="crud.php" method="POST">
             <input type="text" name="title" placeholder="Title" required>
             <textarea name="content" placeholder="Content" rows="5" required></textarea>
             <button type="submit">Add Note</button>
@@ -98,20 +64,24 @@ $result = $conn->query($sql);
         <hr>
 
         <h3>All Notes</h3>
-        <?php if ($result->num_rows > 0): ?>
-            <?php while ($note = $result->fetch_assoc()) : ?>
-                <div class="note">
-                    <h3><?php echo htmlspecialchars($note['title']); ?></h3>
-                    <p><?php echo htmlspecialchars($note['content']); ?></p>
-                    <p><small>Created at: <?php echo $note['created_at']; ?></small></p>
-                </div>
-            <?php endwhile; ?>
-        <?php else: ?>
-            <p>No notes available.</p>
-        <?php endif; ?>
+        <div id="notes-container"></div>
     </div>
+
+    <script>
+        async function fetchNotes() {
+            const response = await fetch("crud.php");
+            const notes = await response.json();
+            const container = document.getElementById("notes-container");
+            container.innerHTML = notes.length ? notes.map(note =>
+                `<div class="note">
+                    <h3>${note.title}</h3>
+                    <p>${note.content}</p>
+                    <p><small>Created at: ${note.created_at}</small></p>
+                </div>`
+            ).join("") : "<p>No notes available.</p>";
+        }
+        fetchNotes();
+    </script>
 
 </body>
 </html>
-
-<?php $conn->close(); ?>
