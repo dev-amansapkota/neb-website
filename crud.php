@@ -7,34 +7,45 @@ $password = 'cKhJ3nqRai1pGJ';
 $conn = new mysqli($host, $username, $password, $dbname);
 
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die(json_encode(["error" => "Connection failed: " . $conn->connect_error]));
 }
 
-// Handle adding a note
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['title'], $_POST['content'])) {
-    $title = htmlspecialchars($_POST['title']);
-    $content = htmlspecialchars($_POST['content']);
+// Handle adding a note (POST request)
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['title'], $_POST['content'])) {
+        $title = htmlspecialchars($_POST['title']);
+        $content = htmlspecialchars($_POST['content']);
 
-    // Insert the new note into the database
-    $sql = "INSERT INTO notes (title, content) VALUES ('$title', '$content')";
-    if ($conn->query($sql) === TRUE) {
-        echo json_encode(["success" => "Note added successfully!"]);
+        // Insert note into database
+        $sql = "INSERT INTO notes (title, content) VALUES ('$title', '$content')";
+        if ($conn->query($sql) === TRUE) {
+            echo json_encode(["success" => "Note added successfully!"]);
+        } else {
+            echo json_encode(["error" => "Error: " . $conn->error]);
+        }
     } else {
-        echo json_encode(["error" => "Error: " . $conn->error]);
+        echo json_encode(["error" => "Missing title or content"]);
     }
     $conn->close();
     exit;
 }
 
-// Fetch all notes
-$sql = "SELECT * FROM notes ORDER BY created_at DESC";
-$result = $conn->query($sql);
+// Handle fetching notes (GET request)
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $sql = "SELECT * FROM notes ORDER BY created_at DESC";
+    $result = $conn->query($sql);
 
-$notes = [];
-while ($note = $result->fetch_assoc()) {
-    $notes[] = $note;
+    $notes = [];
+    while ($note = $result->fetch_assoc()) {
+        $notes[] = $note;
+    }
+
+    echo json_encode($notes);
+    $conn->close();
+    exit;
 }
 
-echo json_encode($notes);
-$conn->close();
+// If method is not allowed
+http_response_code(405);
+echo json_encode(["error" => "Method Not Allowed"]);
 ?>
